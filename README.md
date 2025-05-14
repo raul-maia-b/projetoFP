@@ -1,7 +1,4 @@
 # projetoFP
-
-
-
 import os
 os.system("clear")
 
@@ -17,7 +14,7 @@ def crud(escolha):
         escolha_2 = int(input("Digite: \n 1- Para Registrar \n 2- Visualizar \n 3- Editar \n 4- Excluir \n"))
         #Caso Camila escolha Adicionar;
         if escolha_2 == 1:
-            file = open("VidaPet.csv","a")
+            file = open("VidaPet.txt","a")
             #Adicionar todos os dados do registro de um animal;
             nome = str(input("Digite o nome do cachorro: "))
             lista_nome.append(nome)
@@ -35,7 +32,7 @@ def crud(escolha):
 
         #Caso Camila escolha Visualizar;
         elif escolha_2 == 2:
-            file = open("VidaPet.csv","r")
+            file = open("VidaPet.txt","r")
             for i in range (len(lista_nome)):
                 print("ADIÇÕES RECENTES: \n")
                 print(f"REGISTRO SALVO:  NOME: {lista_nome[i]} // ESPÉCIE: {lista_especie[i]} // RAÇA: {lista_raca[i]} // DATA DE NASCIMENTO: {lista_data[i]} // PESO: {lista_peso[i]}\n")
@@ -49,7 +46,7 @@ def crud(escolha):
         #Caso Camila escolha Editar;
         elif escolha_2 == 3:
             #Pedir o número do registro dos animal;
-            file = open("VidaPet.csv","a")
+            file = open("VidaPet.txt","a")
             print("PARA EDITAR UM REGISTRO ANTERIOR, BASTA ABRIR O ARQUIVO E REESCREVER O DADO!")
             escolha_registro = int(input("Digite o número do registro que você deseja editar as informações: "))
             #Se o registro existir;
@@ -110,7 +107,7 @@ def crud(escolha):
         return lista_nome,lista_especie,lista_raca,lista_data,lista_peso
 
 def cadastro_eventos(escolha):
-        file = open("VidaPet.csv", "a")
+        file = open("VidaPet.txt", "a")
         #Perguntar o que Camila quer realizar;
         escolha_cadastro = int(input("O que deseja agendar? \n 1- Vacinações \n 2- Consultas Veterinárias \n 3- Aplicações de remédios \n 4- Visualizar eventos \n"))
         if escolha_cadastro == 1:
