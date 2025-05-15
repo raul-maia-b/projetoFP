@@ -1,162 +1,142 @@
-# projetoFP
 import os
 os.system("clear")
 
-lista_nome = []
-lista_especie = []
-lista_raca = []
-lista_data = []
-lista_peso = []
 eventos = {}
+
+def update(valor):
+    escolha_registro = str(input("Digite o nome do animal que você deseja editar as informações: "))
+    file = open(f"{escolha_registro}.txt","r")
+    print(file.readline())
+    file.close()
+    with open(f"{escolha_registro}.txt","r") as file:
+        lista = [linha.strip() for linha in file.readlines()]
+    palavras = lista[0].split()
+    file = open(f"{escolha_registro}.txt","w")
+    escolha_edição = int(input("O que deseja editar: \n1-Nome \n2-Espécie \n3-Raça \n4-Data de Nascimento \n5-Peso\n"))
+    if escolha_edição == 1:
+        novo_dado = str(input("Digite o novo nome: "))
+        os.rename(f"{escolha_registro}.txt",f"{novo_dado}.txt")
+        lista[0] = f"REGISTRO: Nome: {novo_dado} // Espécie: {palavras[5]} // Raça: {palavras[8]} // Data de Nascimento: {palavras[13]} // Peso: {palavras[16]}\n"
+        with open(f"{novo_dado}.txt", "w") as file:
+            file.writelines(lista)
+    elif escolha_edição == 2:
+        novo_dado = str(input("Digite a nova Espécie: "))
+        lista[0] = f"REGISTRO: Nome: {palavras[2]} // Espécie: {novo_dado} // Raça: {palavras[8]} // Data de Nascimento: {palavras[13]} // Peso: {palavras[16]}\n"
+        with open(f"{escolha_registro}.txt", "w") as file:
+            file.writelines(lista)
+    elif escolha_edição == 3:
+        novo_dado = str(input("Digite a nova Raça: "))
+        lista[0] = f"REGISTRO: Nome: {palavras[2]} // Espécie: {palavras[5]} // Raça: {novo_dado} // Data de Nascimento: {palavras[13]} // Peso: {palavras[16]}\n"
+        with open(f"{escolha_registro}.txt", "w") as file:
+            file.writelines(lista)
+    elif escolha_edição == 4:
+        novo_dado = str(input("Digite a nova Data de Nascimento: "))
+        lista[0] = f"REGISTRO: Nome: {palavras[2]} // Espécie: {palavras[5]} // Raça: {palavras[8]} // Data de Nascimento: {novo_dado} // Peso: {palavras[16]}\n"
+        with open(f"{escolha_registro}.txt", "w") as file:
+            file.writelines(lista)
+    elif escolha_edição == 5:
+        novo_dado = str(input("Digite o novo Peso: "))
+        lista[0] = f"REGISTRO: Nome: {palavras[2]} // Espécie: {palavras[5]} // Raça: {palavras[8]} // Data de Nascimento: {palavras[13]} // Peso: {novo_dado}\n"
+        with open(f"{escolha_registro}.txt", "w") as file:
+            file.writelines(lista)
+        
+    file.close()
+    return escolha_edição
+
+def create(valor):
+    if valor == 1:
+            #Adicionar todos os dados do registro de um animal;
+            nome = str(input("Digite o nome do animal: "))
+            file = open(f"{nome}.txt","a")
+            especie = str(input("Digite a espécie: "))
+            raca = str(input("Digite a raça: "))
+            data_de_nascimento = str(input("Digite a data de nascimento: "))
+            peso = str(input("Digite o peso: "))
+            print("Animal registrado!")
+            file.write(f"REGISTRO: Nome: {nome} // Espécie: {especie} // Raça: {raca} // Data de Nascimento: {data_de_nascimento} // Peso: {peso}\n")
+            file.close()
+    return file
+
+def read(valor):
+    escolha_arquivo = str(input("Digite o nome do animal: "))
+    file = open(f"{escolha_arquivo}.txt","r")
+    print(file.read())
+    file.close()
+    return file
+
+def delete(valor):
+     try:
+        escolha_excluir = str(input("Digite o nome do animal que você deseja excluir: "))
+        os.remove(f"{escolha_excluir}.txt")
+        print("Registro excluido.")
+     except FileNotFoundError:
+         print("Registro não encontrado!")
+     return escolha_excluir
+
+
 def crud(escolha):
         
      #Apresentar as opções do CRUD para Camila;
         escolha_2 = int(input("Digite: \n 1- Para Registrar \n 2- Visualizar \n 3- Editar \n 4- Excluir \n"))
         #Caso Camila escolha Adicionar;
         if escolha_2 == 1:
-            file = open("VidaPet.txt","a")
-            #Adicionar todos os dados do registro de um animal;
-            nome = str(input("Digite o nome do cachorro: "))
-            lista_nome.append(nome)
-            especie = str(input("Digite a espécie: "))
-            lista_especie.append(especie)
-            raca = str(input("Digite a raça: "))
-            lista_raca.append(raca)
-            data_de_nascimento = str(input("Digite a data de nascimento: "))
-            lista_data.append(data_de_nascimento)
-            peso = str(input("Digite o peso: "))
-            lista_peso.append(peso)
-            print("Animal registrado!")
-            file.write(f"REGISTROS SALVOS: Nome: {nome} // Espécie: {especie} // Raça: {raca} // Data de Nascimento: {data_de_nascimento} // Peso: {peso}\n")
-            file.close()
+            create(escolha_2)
 
         #Caso Camila escolha Visualizar;
         elif escolha_2 == 2:
-            file = open("VidaPet.txt","r")
-            for i in range (len(lista_nome)):
-                print("ADIÇÕES RECENTES: \n")
-                print(f"REGISTRO SALVO:  NOME: {lista_nome[i]} // ESPÉCIE: {lista_especie[i]} // RAÇA: {lista_raca[i]} // DATA DE NASCIMENTO: {lista_data[i]} // PESO: {lista_peso[i]}\n")
-            
-            print("ANIMAIS REGISTRADOS: \n")
-            print(file.read())
-            file.close()
+            read(escolha_2)
                 
            #mostrar todos os cachorros e seus dados;
         
         #Caso Camila escolha Editar;
         elif escolha_2 == 3:
             #Pedir o número do registro dos animal;
-            file = open("VidaPet.txt","a")
-            print("PARA EDITAR UM REGISTRO ANTERIOR, BASTA ABRIR O ARQUIVO E REESCREVER O DADO!")
-            escolha_registro = int(input("Digite o número do registro que você deseja editar as informações: "))
-            #Se o registro existir;
-            if escolha_registro <= (len(lista_nome) -1 ):
-                print(f"REGISTRO #{escolha_registro}:  NOME: {lista_nome[escolha_registro]} // ESPÉCIE: {lista_especie[escolha_registro]} // RAÇA: {lista_raca[escolha_registro]} // DATA DE NASCIMENTO: {lista_data[escolha_registro]} // PESO: {lista_peso[escolha_registro]}")
-                mudanca = int(input("O que deseja editar? \n 1- Nome \n 2- Espécie \n 3- Raça \n 4- Data de nascimento \n 5- Peso \n"))
-                if mudanca == 1:
-                    novo_valor = input("Digite o novo nome: ")
-                    lista_nome[escolha_registro] = novo_valor
-                    file.write(f"REGISTRO #{escolha_registro}:  NOME: {lista_nome[escolha_registro]} // ESPÉCIE: {lista_especie[escolha_registro]} // RAÇA: {lista_raca[escolha_registro]} // DATA DE NASCIMENTO: {lista_data[escolha_registro]} // PESO: {lista_peso[escolha_registro]}")
-                elif mudanca == 2:
-                    novo_valor = input("Digite a espécie: ")
-                    lista_especie[escolha_registro] = novo_valor
-                    file.write(f"REGISTRO #{escolha_registro}:  NOME: {lista_nome[escolha_registro]} // ESPÉCIE: {lista_especie[escolha_registro]} // RAÇA: {lista_raca[escolha_registro]} // DATA DE NASCIMENTO: {lista_data[escolha_registro]} // PESO: {lista_peso[escolha_registro]}")
-
-                elif mudanca == 3:
-                    novo_valor = input("Digite a raça: ")
-                    lista_raca[escolha_registro] = novo_valor
-                    file.write(f"REGISTRO #{escolha_registro}:  NOME: {lista_nome[escolha_registro]} // ESPÉCIE: {lista_especie[escolha_registro]} // RAÇA: {lista_raca[escolha_registro]} // DATA DE NASCIMENTO: {lista_data[escolha_registro]} // PESO: {lista_peso[escolha_registro]}")
-
-                elif mudanca == 4:
-                    novo_valor = input("Digite a data de nascimento: ")
-                    lista_data[escolha_registro] = novo_valor
-                    file.write(f"REGISTRO #{escolha_registro}:  NOME: {lista_nome[escolha_registro]} // ESPÉCIE: {lista_especie[escolha_registro]} // RAÇA: {lista_raca[escolha_registro]} // DATA DE NASCIMENTO: {lista_data[escolha_registro]} // PESO: {lista_peso[escolha_registro]}")
-
-                elif mudanca == 5:
-                    novo_valor = input("Digite o peso: ")
-                    lista_peso[escolha_registro] = novo_valor
-                    file.write(f"REGISTRO #{escolha_registro}:  NOME: {lista_nome[escolha_registro]} // ESPÉCIE: {lista_especie[escolha_registro]} // RAÇA: {lista_raca[escolha_registro]} // DATA DE NASCIMENTO: {lista_data[escolha_registro]} // PESO: {lista_peso[escolha_registro]}")
-
-                else:
-                    print("Valor inválido!")
-                    while mudanca > 0 and mudanca <= 5:
-                        mudanca = int(input("O que deseja editar? \n 1- Nome \n 2- Espécie \n 3- Raça \n 4- Data de nascimento \n 5- Peso"))
-            elif escolha_registro > (len(lista_nome) -1):
-                print("Valor inválido!")
-                while escolha_registro > (len(lista_nome) -1):
-                    escolha_registro = int(input("Digite o número do registro que você deseja editar as informações: "))
-            file.close()
+            update(escolha_2)
                 
         
         #Caso Camila escolha Excluir;
         elif escolha_2 == 4:
-            escolha_excluir = int(input("Digite o número do registro que você deseja excluir: "))
-            #Se o registro existir;
-            if escolha_excluir <= (len(lista_nome) -1):
-                lista_nome.pop(escolha_excluir) 
-                lista_especie.pop(escolha_excluir)
-                lista_raca.pop(escolha_excluir)
-                lista_data.pop(escolha_excluir)
-                lista_peso.pop(escolha_excluir)
-                print("Registro excluido.")
-            elif escolha_excluir > (len(lista_nome)-1):
-                print("Valor inválido!")
-                while escolha_excluir > (len(lista_nome) - 1):
-                    escolha_excluir = int(input("Digite o número do registro que você deseja excluir: "))
-        file.close()
-        return lista_nome,lista_especie,lista_raca,lista_data,lista_peso
+            delete(escolha_2)
+        return escolha_2
 
 def cadastro_eventos(escolha):
-        file = open("VidaPet.txt", "a")
-        #Perguntar o que Camila quer realizar;
-        escolha_cadastro = int(input("O que deseja agendar? \n 1- Vacinações \n 2- Consultas Veterinárias \n 3- Aplicações de remédios \n 4- Visualizar eventos \n"))
-        if escolha_cadastro == 1:
-            #Pedir registro e data para adicionar ao dicionário;
-            agendar_animal = int(input("Digite o registro do animal que você desejar alocar: "))
-            if agendar_animal <= (len(lista_nome)-1):
-                data_agendamento = str(input("Digite a data do agendamento (XX/XX/XXXX): "))
-                print("Animal Registrado!")
-                eventos[f"VACINAÇÃO // NOME: {lista_nome[agendar_animal]}"] = f"DATA: {data_agendamento}"
-                file.write(f"{eventos}\n")
-            else:
-                print("Registro inválido.")
-                while agendar_animal > (len(lista_nome) -1):
-                    agendar_animal = int(input("Digite o registro do animal que você desejar alocar: "))
-        elif escolha_cadastro == 2:
-            #Pedir registro e data para adicionar ao dicionário;
-            agendar_animal = int(input("Digite o registro do animal que você desejar alocar: "))
-            if agendar_animal <= (len(lista_nome)-1):
-                data_agendamento = str(input("Digite a data do agendamento (XX/XX/XXXX): "))
-                print("Animal Registrado!")
-                eventos[f"CONSULTA VETERINÁRIA // NOME: {lista_nome[agendar_animal]}"] = f"DATA: {data_agendamento}" 
-                file.write(f"{eventos}\n") 
-            else: 
-                print("Registro inválido.")
-                while agendar_animal > (len(lista_nome) -1):
-                    agendar_animal = int(input("Digite o registro do animal que você desejar alocar: "))
-        elif escolha_cadastro == 3:
-            #Pedir registro e data para adicionar ao dicionário;
-            agendar_animal = int(input("Digite o registro do animal que você desejar alocar: "))
-            if agendar_animal <=(len(lista_nome)-1):
-                data_agendamento = str(input("Digite a data do agendamento (XX/XX/XXXX): "))
-                print("Animal Registrado!")
-                eventos[f"APLICAÇÕES DE REMÉDIOS // NOME: {lista_nome[agendar_animal]}"] = f"DATA: {data_agendamento}" 
-                file.write(f"{eventos}\n")
-            else:
-                print("Registro inválido.")
-                while agendar_animal > (len(lista_nome) -1):
-                    agendar_animal = int(input("Digite o registro do animal que você desejar alocar: "))
-        elif escolha_cadastro == 4:
-            print(eventos)
+    escolha_cadastro = int(input("O que deseja agendar? \n 1- Vacinações \n 2- Consultas Veterinárias \n 3- Aplicações de remédios \n 4- Visualizar eventos \n"))
+    if escolha_cadastro == 1:
+        registro = str(input("Digite o nome do animal que você deseja agendar: "))
+        file = open(f"{registro}.txt","a")
+        data = str(input("Digite a data: (XX/XX/XXXX) "))
+        file.write(f"DATA DA VACINAÇÃO: {data}\n")
         file.close()
-        return eventos
+    elif escolha_cadastro == 2:
+        registro = str(input("Digite o nome do animal que você deseja agendar: "))
+        file = open(f"{registro}.txt","a")
+        data = str(input("Digite a data: (XX/XX/XXXX) "))
+        file.write(f"DATA DA CONSULTA VETERINÁRIAS: {data}\n")
+        file.close()
+    elif escolha_cadastro == 3:
+        registro = str(input("Digite o nome do animal que você deseja agendar: "))
+        file = open(f"{registro}.txt", "a")
+        data = str(input("Digite a data: (XX/XX/XXXX) "))
+        file.write(f"DATA DAS APLICAÇÕES DE REMÉDIOS: {data}")
+        file.close()
+    elif escolha_cadastro == 4:
+        registro = str(input("Digite o nome do animal que você deseja ver o enventos cadastrados: "))
+        with open(f"{registro}.txt","r") as file:
+            linhas = file.readlines()
+            print(linhas[1])
+
 
 
 while True:
+    try:
     #Primeira interação do programa, perguntar o que Camila quer fazer;
-    escolha_funcao = int(input("Digite: \n 1- CRUD de animais \n 2- Cadastro de Cuidados e Eventos \n 3- Metas de Saúde e Bem-Estar \n 4- Sugestões Personalizadas \n 5- Função Extra\n"))
-    if escolha_funcao == 1:
-        crud(escolha_funcao)
+        escolha_funcao = int(input("Digite: \n 1- CRUD de animais \n 2- Cadastro de Cuidados e Eventos \n 3- Metas de Saúde e Bem-Estar \n 4- Sugestões Personalizadas \n 5- Função Extra\n"))
+        if escolha_funcao == 1:
+            crud(escolha_funcao)
     
-    elif escolha_funcao == 2:
-        cadastro_eventos(escolha_funcao)
+        elif escolha_funcao == 2:
+            cadastro_eventos(escolha_funcao)
+    except ValueError: 
+        print("Siga as instruções!")
+
+
