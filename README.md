@@ -1,5 +1,5 @@
 import os
-os.system("clear")
+os.system("cls")
 
 eventos = {}
 
@@ -126,17 +126,58 @@ def cadastro_eventos(escolha):
             print(linhas[1])
 
 
+def metas(escolha): 
+    arquivos_metas = "metas.txt"
+    menumetas = str(input("\n1- Adicionar metas \n2- Marcar metas concluidas \n3- Ver metas cadastradas \nSelecione: "))
+    if menumetas == 1:
+        nomepet = str(input("Digite o nome do animal que você deseja adicionar metas: "))
+        file = open(f"{nomepet}metas.txt", "append")
+        meta = str(input(f"Descreva a  meta para o(a) {nomepet}: "))
+        tipo = int(input("Selecione o tipo de meta \n1- Única \n2- Recorrente "))
+        frequencia = str(input("Qaul será a frequência da meta selecionada? ")) 
+        file.write(f"META: {meta} | TIPO: {tipo} | FREQUÊNCIA: {frequencia} | VEZES CUMPRIDAS: 0\n")
+        file.close()
+        print("Meta adicionada com sucesso")
+    elif menumetas ==2:
+        nomepet = str(input("Digite o nome do animal que você deseja listar metas: "))
+        try:
+            with open(f"{nomepet}metas.txt", "r") as file:
+                linhas = file.readlines()
+            for i, linha in enumerate(linhas):
+                print(f"{i+1} - {linha.strip()}")
+            num = int(input("Qual meta deseja marcar como concluída? "))
+            #menumetas2 finalizar!
+
+
+
+
+
+
+
+    elif menumetas ==3:
+        nomepet = str(input("Digite o nome do animal para que você possa ver suas metas cadastradas: "))
+        try: 
+            with open (f"{nomepet}metas.txt", "r") as file: 
+                print("\nMetas cadastradas:")
+                print(file.read())
+        except FileNotFoundError:
+            print("Este animal ainda não tem metas cadastradas")
+
+
+
+
+
+
 
 while True:
     try:
     #Primeira interação do programa, perguntar o que Camila quer fazer;
-        escolha_funcao = int(input("Digite: \n 1- CRUD de animais \n 2- Cadastro de Cuidados e Eventos \n 3- Metas de Saúde e Bem-Estar \n 4- Sugestões Personalizadas \n 5- Função Extra\n"))
+        escolha_funcao = int(input(" 1- CRUD de animais \n 2- Cadastro de Cuidados e Eventos \n 3- Metas de Saúde e Bem-Estar \n 4- Sugestões Personalizadas \n 5- Função Extra \n\n Selecione a opção escolhida: "))
         if escolha_funcao == 1:
             crud(escolha_funcao)
-    
         elif escolha_funcao == 2:
             cadastro_eventos(escolha_funcao)
+        elif escolha_funcao ==3:
+            metas(escolha_funcao)
     except ValueError: 
         print("Siga as instruções!")
-
-
