@@ -351,10 +351,8 @@ def menu_eventos():
         else:
             print("Opção inválida.")
 
-
-
 def sugestoes():
-#Gera sugestões com base em espécie e idade
+    # Gera sugestões com base em espécie e idade
     pets = ler_registros(ARQUIVO_PETS, 5)
     nome_pet = input("Nome do pet: ").strip().lower()
     dados_pet = None
@@ -369,16 +367,18 @@ def sugestoes():
     data_nasc = datetime.strptime(nasc, "%d/%m/%Y")
     idade = (datetime.today() - data_nasc).days // 365
     print(f"\nSugestões para {nome} — {especie.capitalize()}, {idade} anos:")
+    
     if especie.lower() == "cachorro":
         print("- Brinquedos: bola, corda, ossinho")
         print("- " + ("Brincadeiras leves" if idade < 1 else "Caminhada diária"))
     elif especie.lower() == "gato":
         print("- Brinquedos: bolinha, arranhador")
         print("- " + ("Brincadeiras curtas" if idade < 1 else "Brinquedos interativos"))
+    elif especie.lower() == "hamster":
+        print("- Brinquedos: roda de exercícios, tubos e esconderijos")
+        print("- " + ("Manuseio delicado e supervisão constante" if idade < 1 else "Ambiente enriquecido com novos objetos semanalmente"))
     else:
         print("Sem sugestões para esta espécie.")
-
-
 
 def adicionar_meta():
 #Adiciona meta de saúde para um pet já cadastrado
